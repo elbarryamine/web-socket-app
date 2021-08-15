@@ -1,0 +1,47 @@
+<div class="row">
+   <% results.forEach(element => { %>
+   <div class="col-lg-4 col-md-4 col-sm-6">
+     <a href="images/img_6.jpg" class="fh5co-card-item image-popup">
+       <figure>
+         <div class="overlay"><i class="ti-plus"></i></div>
+         <img src="images/img_6.jpg" alt="Image" class="img-responsive" />
+       </figure>
+       <div class="fh5co-text">
+         <h2>Salad with Crispy Chicken</h2>
+         <p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+         <p><span class="price cursive-font">$5.59</span></p>
+       </div>
+     </a>
+   </div>
+   <% }) %>
+ </div>
+ <% if (showpagination) { %>
+  <div>
+    <div class="container d-flex justify-content-center">
+      <nav aria-label="Page navigation" style="display: flex; justify-content: center">
+        <ul class="pagination d-flex justify-content-center">
+          <% if (page!=1) { %>
+            <li>
+              <a href=<%=`/?page=${+page-1}`%>   aria-label="Previous">
+                <span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+              </a>
+            </li>
+          <% } %>
+          
+          <% for( let ind = 0; ind < pagecount; ind++ ) { %> <% if (page == ind +1) { %>
+          <li class="active"><a href="<%=`/?page=${+ind+1}`%>"><%=ind+1 %></a></li>
+          <% } else { %>
+ 
+          <li><a href="<%=`/?page=${+ind+1}`%>"><%=ind+1 %> </a></li>
+          <% } %> <% } %>
+ 
+          <li>
+            <a href="<%=`/?page=${+page+1}`%>" aria-label="Next">
+              <span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+ <% } %>

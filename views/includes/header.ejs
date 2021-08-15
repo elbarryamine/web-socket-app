@@ -1,0 +1,73 @@
+<header
+  id="gtco-header"
+  class="gtco-cover gtco-cover-md"
+  role="banner"
+  style="background-image: url(images/img_bg_1.jpg); background-attachment: fixed"
+  data-stellar-background-ratio="0.5"
+>
+  <div class="overlay"></div>
+  <div class="gtco-container">
+    <div class="row">
+      <div class="col-md-12 col-md-offset-0 text-left">
+        <div class="row row-mt-15em">
+          <div class="animate__animated animate__bounceInRight">
+            <h1 class="">Restaurant Villa Tival</h1>
+          </div>
+          <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+            <h1 class="cursive-font">Tout en bon goût!</h1>
+          </div>
+          <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+            <div class="form-wrap">
+              <div class="tab">
+                <div class="tab-content">
+                  <div class="tab-content-inner active" data-content="signup">
+                    <h3 class="cursive-font">Table Reservation</h3>
+                    <form action="/reservation/send" method="GET" enctype="multipart/form-data" id="reservation">
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label for="name">Name</label>
+                          <input name="name" type="text" id="name" class="form-control" required />
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label for="persons">Persons</label>
+                          <select name="persons" id="persons" class="form-control" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5+</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label for="date-start">Date</label>
+                          <input name="date" type="text" id="date" class="form-control" required />
+                        </div>
+                      </div>
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <label for="date-start">Time</label>
+                          <input name="time" type="text" id="time" class="form-control" required />
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div class="col-md-12">
+                          <input type="submit" class="btn btn-primary btn-block" value="Reserve Now" />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
