@@ -3,17 +3,29 @@ const socket = io('ws://localhost:3000');
 const notification = document.querySelector('#notification');
 const tableHead = document.querySelector('#tableHead');
 const tableList = document.querySelector('tbody');
+const user = document.querySelector('#user').innerHTML;
 
-const markupListItem = (order, orderBy, table, day, hour, minute) => `<tr role="row" class="hover:bg-blue-100 border-b flex cursor-pointer items-center">
+socket.emit('launch');
 
-<td onclick="handleSendOrderToKitchen()" class="flex align-middle items-center justify-center text-center py-3 pl-3 pr-1 w-30">
-<button class="py-3 px-6 text-white rounded-lg bg-purple-600 shadow-lg block md:inline-block" type="checkbox">Envoyer</button>
-</td>
-<td class="py-3 px-5 flex-1 min-w-max truncate text-center">${order}</td>
-<td class="py-3 px-5 flex-1 min-w-max truncate text-center">${orderBy}</td>
-<td class="py-3 px-5 flex-1 min-w-max truncate text-center">${table}</td>
-<td class="py-3 px-5 flex-1 min-w-max truncate text-center">${day + ' ' + hour + ':' + minute}</td>
-</tr>`;
+const markupListItem = (order, orderBy, table, day, hour, minute) => {
+  let output;
+  if (orderBy == user) {
+    output = `<td onclick="handleSendOrderToKitchen()" class="flex align-middle items-center justify-center text-center py-3 pl-3 pr-1 w-30">
+    <button class="py-3 px-6 text-white rounded-lg bg-purple-600 shadow-lg block md:inline-block" type="checkbox">Envoyer</button>
+    </td>`;
+  } else {
+    output = `<td class="flex align-middle items-center justify-center text-center py-3 pl-3 pr-1 w-30">
+    <button class="opacity-0 py-3 px-6 text-white rounded-lg bg-purple-600 shadow-lg block md:inline-block" type="checkbox">Envoyer</button>
+    </td>`;
+  }
+  return `<tr role="row" class="hover:bg-blue-100 border-b flex cursor-pointer items-center">
+  ${output}
+  <td class="py-3 px-5 flex-1 min-w-max truncate text-center">${order}</td>
+  <td class="py-3 px-5 flex-1 min-w-max truncate text-center">${orderBy}</td>
+  <td class="py-3 px-5 flex-1 min-w-max truncate text-center">${table}</td>
+  <td class="py-3 px-5 flex-1 min-w-max truncate text-center">${day + ' ' + hour + ':' + minute}</td>
+  </tr>`;
+};
 const markupSentToKitchen = (order, orderBy, table, time) => `
 <tr role="row" class="hover:bg-blue-100 border-b flex cursor-pointer items-center">
                   <td onclick="handleUnfinished()" class="flex align-middle items-center justify-center text-center py-3 pl-3 pr-1 w-40">
@@ -76,15 +88,6 @@ const markupAddOrder = `<tr class="border-b flex">
  </tr>`;
 
 // Listeners
-document.onload = function () {
-  socket.emit('connected', 'Nothing');
-};
-socket.on('oldData', (oldData) => {
-  const data = JSON.parse(oldData);
-  data.forEach((el) => {
-    tableList.insertAdjacentHTML('afterbegin', markupListItem(el.order, el.orderBy, el.table, el.day, el.hour, el.minute));
-  });
-});
 
 socket.on('notificationOrderSentToKitchen', (text) => {
   const order = JSON.parse(text);
@@ -106,8 +109,15 @@ socket.on('notificationOrderUnFinished', (message) => {
   child.remove();
   // notification.insertAdjacentHTML('beforebegin', markupnotification(JSON.parse(text), day, hour, minute));
 });
+socket.on('sendingPreviousData', (orders) => {
+  const listItems = JSON.parse(orders);
+  listItems.forEach((order) => {
+    tableList.insertAdjacentHTML('afterbegin', markupListItem(order.order, order.orderBy, order.table, order.day, order.hour, order.minute));
+  });
+});
 
 // Emitters
+
 const handleSendOrderToList = () => {
   const order = document.querySelector('#order').value;
   const table = document.querySelector('#table').value;
@@ -119,7 +129,7 @@ const handleSendOrderToList = () => {
 
   tableHead.innerHTML = '';
   tableHead.insertAdjacentHTML('afterbegin', markupCancel);
-  socket.emit('sendNewOrderToList', JSON.stringify({ order, table, day, hour, minute }));
+  socket.emit('sendNewOrderToList', JSON.stringify({ order, orderBy: user, table, day, hour, minute }));
 };
 const handleUnfinished = () => {
   const row = window.event.target.closest('tr');
