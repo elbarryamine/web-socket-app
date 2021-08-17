@@ -44,17 +44,24 @@ app.use('/js', express.static('public/js'));
 app.use('/sass', express.static('public/sass'));
 app.use('/images', express.static('public/images'));
 app.use('/fonts', express.static('public/fonts'));
+app.use('/uploads', express.static('public/uploads'));
 //
-
-socketHandler(io);
 app.use(db_middleware, homeRouter);
 app.use(db_middleware, authRouter);
-app.use(adminRouter);
+app.use((req, res, next) => {
+  io.use((socket, nex) => {
+    socket.reqdata = req;
+    nex();
+  });
+  next();
+});
+app.use(db_middleware, adminRouter);
 app.get('/reservation/send', upload.none(), db_middleware, reservation.sendReservation);
 
 app.use('*', function (req, res) {
   res.render('pages/404.ejs');
 });
+socketHandler(io);
 // SOCKETS
 
 server.listen(port, function (req, res) {

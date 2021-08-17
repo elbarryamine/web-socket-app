@@ -16,7 +16,6 @@ exports.signUser = async (req, res) => {
   const email = req.body.email.toLowerCase();
   const username = req.body.username.toLowerCase();
   const role = req.body.role.toLowerCase();
-  console.log(role, username, password, email);
   if (!password || !passwordConfirm || !email || !username) return res.render('page/signup', { message: 'Veuillez fournir tous les champs obligatoires' });
   if (password !== passwordConfirm) return res.render('pages/signup', { message: 'Veuillez confirmer que les mots de passe correspondent' });
   try {

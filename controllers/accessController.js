@@ -7,12 +7,13 @@ exports.isAuthenticated = (req, res, next) => {
 };
 exports.isNotAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.redirect('/admin');
+    res.redirect('/gestion');
   } else {
     next();
   }
 };
 exports.isAdmin = (req, res, next) => {
+  console.log(req.user.roles);
   if (req.user !== undefined && req.user.roles == 'admin') {
     next();
   } else {
