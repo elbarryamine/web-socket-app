@@ -2017,7 +2017,7 @@ form label {
   display: grid;
   grid-template-columns: 1fr;
   place-items: center;
-  row-gap: 5rem;
+  row-gap: 2rem;
   grid-template-rows: 15rem 2rem 2rem;
 }
 /*# sourceMappingURL=style.css.map */

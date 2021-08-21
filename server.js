@@ -17,7 +17,6 @@ const flash = require('express-flash');
 const init = require('./utils/passport');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
-const helmet = require('helmet');
 
 const db_middleware = (req, res, next) => {
   req.db = db;

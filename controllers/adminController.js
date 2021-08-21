@@ -10,9 +10,21 @@ exports.getUsersPage = (req, res) => {
     res.render('pages/users', { results: results ,currentuserid : req.user.id});
   });
 };
+exports.getChefsPage = (req, res) => {
+  const db = req.db;
+  db.query('SELECT * FROM chef', (err, results) => {
+    if(err) return console.log(err)
+    if(results.length) {
+      res.render('pages/chefs', { results: results});
+    }else{
+      res.render('pages/chefs', { results: []})
+
+    }
+  });
+};
 exports.postAdmin = (req, res) => {
   const { menuitemid, menuitemname, menuitemcategory, menuitemdescription, menuitemextras, menuitemprice } = req.body;
-  const image = 'uploads/' + req.file.filename;
+  const image = '/uploads/' + req.file.filename;
   const db = req.db;
   if (menuitemid === 'add') {
     db.query(`INSERT INTO menu (name ,category , description, extra, image , prix) VALUES(?, ?, ?, ?, ?, ?)`, [
@@ -38,6 +50,23 @@ exports.postAdmin = (req, res) => {
       res.render('pages/admin', { results, page: 'Restaurant', search: req.search });
     }
   });
+};
+exports.postChef = (req, res) => {
+  const { chefid,chefname,cheftask } = req.body;
+  const chefimage = '/uploads/' + req.file.filename;
+  const db = req.db;
+  if (chefid === 'add') {
+    db.query(`INSERT INTO chef (name , tasks, image) VALUES(?, ?, ?)`, [
+      chefname,
+      cheftask,
+      chefimage,
+    ]);
+  } else {
+    chefimage && db.query(`UPDATE chef SET image='${chefimage}' WHERE  id='${chefid}'`);
+    chefname && db.query(`UPDATE chef SET name='${chefname}' WHERE  id='${chefid}'`);
+    cheftask && db.query(`UPDATE chef SET tasks='${cheftask}' WHERE  id='${chefid}'`);
+  }
+  res.redirect('/admin/chefs')
 };
 
 exports.getGestionPanel = (req, res) => {
@@ -69,6 +98,20 @@ exports.deleteUser = (req, res) => {
       }
     });
     res.redirect('/admin');
+  }
+};
+exports.deleteChef = (req, res) => {
+  const { id } = req.params;
+  const db = req.db;
+  if (isNaN(req.params.id)) {
+    res.render('pages/error');
+  } else {
+    db.query(`DELETE FROM chef WHERE id = ?`, [id], function (err, results) {
+      if (err) {
+        res.render('pages/error');
+      }
+    });
+    res.redirect('/admin/chefs');
   }
 };
 exports.allowUser = (req, res) => {

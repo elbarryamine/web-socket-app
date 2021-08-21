@@ -37,5 +37,11 @@ exports.getAboutPage = function (req, res) {
   res.render('pages/about');
 };
 exports.getTeamPage = function (req, res) {
-  res.render('pages/team');
+  const db = req.db;
+  db.query('SELECT * FROM chef', function (err, results) {
+    if (err) res.render('pages/error');
+    else {
+      res.render('pages/team', { results });
+    }
+  });
 };
