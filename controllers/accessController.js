@@ -5,6 +5,13 @@ exports.isAuthenticated = (req, res, next) => {
     res.redirect('login');
   }
 };
+exports.isAllowed = (req, res, next) => {
+  if (req.user.isAllowed!=0) {
+    next();
+  } else {
+    res.render('pages/noaccess');
+  }
+};
 exports.isNotAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     res.redirect('/gestion');
@@ -13,7 +20,6 @@ exports.isNotAuthenticated = (req, res, next) => {
   }
 };
 exports.isAdmin = (req, res, next) => {
-  console.log(req.user.roles);
   if (req.user !== undefined && req.user.roles == 'admin') {
     next();
   } else {

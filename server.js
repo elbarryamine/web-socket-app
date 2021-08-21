@@ -16,12 +16,14 @@ const authRouter = require('./routes/authRouter');
 const flash = require('express-flash');
 const init = require('./utils/passport');
 const passport = require('passport');
-var cookieSession = require('cookie-session');
+const cookieSession = require('cookie-session');
+const helmet = require('helmet');
+
 const db_middleware = (req, res, next) => {
   req.db = db;
   next();
 };
-
+// app.use(helmet());
 app.use(flash());
 
 app.use(
@@ -49,9 +51,9 @@ app.use('/uploads', express.static('public/uploads'));
 app.use(db_middleware, homeRouter);
 app.use(db_middleware, authRouter);
 app.use((req, res, next) => {
-  io.use((socket, nex) => {
+  io.use((socket, socketNext) => {
     socket.reqdata = req;
-    nex();
+    socketNext();
   });
   next();
 });

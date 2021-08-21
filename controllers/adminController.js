@@ -1,8 +1,13 @@
 exports.getAdminPanel = (req, res) => {
   const db = req.db;
   db.query('SELECT * FROM menu', (err, results) => {
-    console.log(results);
     res.render('pages/admin', { results: results });
+  });
+};
+exports.getUsersPage = (req, res) => {
+  const db = req.db;
+  db.query('SELECT * FROM users', (err, results) => {
+    res.render('pages/users', { results: results ,currentuserid : req.user.id});
   });
 };
 exports.postAdmin = (req, res) => {
@@ -50,5 +55,52 @@ exports.deleteItem = (req, res) => {
       }
     });
     res.redirect('/admin');
+  }
+};
+exports.deleteUser = (req, res) => {
+  const { id } = req.params;
+  const db = req.db;
+  if (isNaN(req.params.id)) {
+    res.render('pages/error');
+  } else {
+    db.query(`DELETE FROM users WHERE id = ?`, [id], function (err, results) {
+      if (err) {
+        res.render('pages/error');
+      }
+    });
+    res.redirect('/admin');
+  }
+};
+exports.allowUser = (req, res) => {
+  const { id } = req.params;
+  const db = req.db;
+  if (isNaN(+id)) {
+    res.render('pages/error');
+  } else {
+    db.query(`UPDATE users SET isAllowed = '1' WHERE id = ?`, [id], function (err, results) {
+      if (err) {
+        res.render('pages/error');
+      }else{
+        res.redirect('/admin/users');
+        
+      }
+    });
+  }
+};
+exports.disallowUser = (req, res) => {
+  const { id } = req.params;
+  const db = req.db;
+  if (isNaN(+id)) {
+    res.render('pages/error');
+  } else {
+    db.query(`UPDATE users SET isAllowed = '0' WHERE id = ?`, [id], function (err, results) {
+      if (err) {
+        res.render('pages/error');
+      }
+      else{
+        res.redirect('/admin/users');
+
+      }
+    });
   }
 };

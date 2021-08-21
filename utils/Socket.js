@@ -13,7 +13,7 @@ const socketHandler = (io) => {
             orders = [];
           } else {
             orders = Array.from(JSON.parse(dataFile));
-            if (orders.length > 2) orders.pop();
+            if (orders.length > 80) orders.pop();
           }
           if (!dataFile2) {
             nots = [];
@@ -40,7 +40,7 @@ const socketHandler = (io) => {
           orders = Array.from(JSON.parse(dataFile));
         }
         orders.push(data);
-        if (orders.length > 2) orders.pop();
+        if (orders.length > 80) orders.pop();
         fs.writeFile('./history/orderslist.txt', JSON.stringify([...orders]), (err) => {
           if (err) {
             console.log(err);
