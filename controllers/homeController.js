@@ -67,7 +67,6 @@ exports.getAboutPage = function (req, res) {
   });
 };
 exports.getTeamPage = function (req, res) {
-
   const db = req.db;
   let info;
   db.query('SELECT * FROM info', (err, results) => {

@@ -49,6 +49,7 @@ app.use('/uploads', express.static('public/uploads'));
 //
 app.use(db_middleware, homeRouter);
 app.use(db_middleware, authRouter);
+
 app.use((req, res, next) => {
   io.use((socket, socketNext) => {
     socket.reqdata = req;
@@ -64,7 +65,6 @@ app.use('*', function (req, res) {
 });
 socketHandler(io);
 // SOCKETS
-
 server.listen(port, function (req, res) {
   console.log('Catch the action at http://localhost:' + port);
 });

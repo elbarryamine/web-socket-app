@@ -1,6 +1,5 @@
 exports.sendReservation = function (req, res) {
   const db = req.db;
-  console.log(req.query);
   const { name, time, date, persons } = req.query;
   // 2021-08-13 10:00:02
   const fulldate = new Date();

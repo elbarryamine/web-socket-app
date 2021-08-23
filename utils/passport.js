@@ -11,7 +11,6 @@ const init = function () {
       },
       function (email, password, done) {
         db.query('SELECT * FROM users WHERE email = ?', [email], async function (err, user) {
-          console.log(user);
           try {
             if (!user) {
               return done(null, false, { message: 'Email ou mot de passe incorrect.' });
