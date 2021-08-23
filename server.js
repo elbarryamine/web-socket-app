@@ -65,6 +65,7 @@ app.use('*', function (req, res) {
 });
 socketHandler(io);
 // SOCKETS
+
 server.listen(port, function (req, res) {
   console.log('Catch the action at http://localhost:' + port);
 });
