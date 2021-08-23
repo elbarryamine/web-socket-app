@@ -10,6 +10,12 @@ exports.getUsersPage = (req, res) => {
     res.render('pages/users', { results: results ,currentuserid : req.user.id});
   });
 };
+exports.getInfoPage = (req, res) => {
+  const db = req.db;
+  db.query('SELECT * FROM info', (err, results) => {
+    res.render('pages/info', {  location: results[0].location, phoneNumber: results[0].phone , email : results[0].email });
+  });
+};
 exports.getChefsPage = (req, res) => {
   const db = req.db;
   db.query('SELECT * FROM chef', (err, results) => {
@@ -67,6 +73,14 @@ exports.postChef = (req, res) => {
     cheftask && db.query(`UPDATE chef SET tasks='${cheftask}' WHERE  id='${chefid}'`);
   }
   res.redirect('/admin/chefs')
+};
+exports.postInfo = (req, res) => {
+  const { infoLocation,infoTel,infoEmail } = req.body;
+  const db = req.db;
+  infoLocation && db.query(`UPDATE info SET location='${infoLocation}'`);
+    infoEmail && db.query(`UPDATE info SET email='${infoEmail}'`);
+    infoTel && db.query(`UPDATE info SET phone='${infoTel}'`);
+  res.redirect('/admin/info')
 };
 
 exports.getGestionPanel = (req, res) => {

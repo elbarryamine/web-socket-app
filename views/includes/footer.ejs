@@ -7,44 +7,39 @@
           <h3>Get In Touch</h3>
           <ul class="gtco-quick-contact">
             <li>
-              <a href="#"><i class="icon-phone"></i> +1 234 567 890</a>
+              <a href="tel: <%=phoneNumber  %> "><i class="icon-phone"></i> <%=phoneNumber  %> </a>
             </li>
             <li>
-              <a href="#"><i class="icon-mail2"></i> info@GetTemplates.co</a>
+              <a href="mailto: <%=email  %>"><i class="icon-mail2"></i> <%=email  %> </a>
             </li>
             <li>
-              <a href="#"><i class="icon-chat"></i> Live Chat</a>
+              <a href="https://www.google.com/maps/search/<%=location  %> "><i class="icon-location"></i> <%=location  %></a>
             </li>
           </ul>
         </div>
         <div class="gtco-widget">
           <h3>Get Social</h3>
           <ul class="gtco-social-icons">
-            <li>
-              <a href="#"><i class="icon-twitter"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="icon-facebook"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="icon-linkedin"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="icon-dribbble"></i></a>
-            </li>
+            <% if (typeof twitterLink !== 'undefined' && twitterLink) { %>
+              <li>
+                <a href="<%=twitterLink  %> "><i class="icon-twitter"></i></a>
+              </li>
+            <% } %>
+            <% if (typeof facebookLink !== 'undefined' && facebookLink) { %>
+              <li>
+                <a href="<%=facebookLink  %> "><i class="icon-facebook"></i></a>
+              </li>
+            <% } %>
+            <% if (typeof instagramLink !== 'undefined' && instagramLink) { %>
+              <li>
+                <a href="<%=instagramLink  %> "><i class="icon-instagram"></i></a>
+              </li>
+            <% } %>
           </ul>
         </div>
       </div>
 
-      <div class="col-md-12 text-center copyright">
-        <p>
-          <small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-          <small class="block"
-            >Designed by <a href="http://gettemplates.co/" target="_blank">GetTemplates.co</a> Demo Images:
-            <a href="http://unsplash.com/" target="_blank">Unsplash</a></small
-          >
-        </p>
-      </div>
+     
     </div>
   </div>
 </footer>

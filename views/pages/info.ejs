@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://tailwindcomponents.com/css/component.dashboard-template.css" rel="stylesheet" />
+    <title>Restaurant || Admin</title>
+  </head>
+  <body class="relative h-screen overflow-hidden flex items-center justify-center" style="background: #edf2f7">
+    <div style="width: 100%">
+      <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+      <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
+        <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
+
+        <%- include('../includes/admin/sidebar' ,{page:"admin"}) %>
+        <div class="flex-1 flex flex-col overflow-hidden">
+          <%- include ('../includes/admin/header',{page:"admin"}) %>
+          <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+            <div class="container mx-auto px-6 py-8 relative">
+              <h3 class="text-gray-700 text-3xl font-medium ">Dashboard</h3>
+              
+
+              <div class="mt-8"></div>
+
+              <div class="flex flex-col mt-8">
+                <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                  <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th class="px-6 py-3 border-b border-gray-200 bg-gray-50">Actions</th>
+
+                          <th class="px-20 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Emplacement
+                          </th>
+                          <th class="px-20 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            Téléphone
+                          </th>
+                          <th class="px-20 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            E-mail
+                          </th>
+                          
+                        </tr>
+                      </thead>
+
+                      <tbody id="tablebody" class="bg-white">
+                        <tr id="tablerow">
+                           
+
+                          
+                           
+                          <td
+                           
+                            class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium flex flex-col flex-wrap items-center justify-evenly"
+                          >
+                            <a  onclick="handleclick('<%=JSON.stringify({location,phoneNumber,email})%>')" href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                          </td>
+                       
+
+                          
+                          
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div class="text-sm leading-5 text-gray-900 text-center"><%=location%></div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div class="text-sm leading-5 text-gray-900 text-center"><%=phoneNumber%></div>
+                          </td>
+                          <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div class="text-sm leading-5 text-gray-900 text-center"><%=email%></div>
+                          </td>
+                          
+                          
+                         
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let showModal2 = true;
+    const markupGet = (obj, add = false) => `
+          <form action="/admin/info" id="formedit" name="formedit" Method="POST" enctype="multipart/form-data">
+        </form>
+          <tr id="tablerow">
+        <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+            <input
+            form="formedit"
+            ${add ? 'required' : ''}
+            class="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value="sauvez"
+            type="submit"
+            />
+
+        </td>
+
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+          <input
+          form="formedit"
+          ${add ? 'required' : ''}
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="infoLocation"
+            name="infoLocation"
+            type="text"
+            placeholder="Emplacement"
+          />
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+          <input
+          form="formedit"
+          ${add ? 'required' : ''}
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="infoTel"
+            name="infoTel"
+            type="tel"
+            placeholder="Phone"
+          />
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+          <input
+          form="formedit"
+          ${add ? 'required' : ''}
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="infoEmail"
+            name="infoEmail"
+            type="email"
+            placeholder="Email"
+          />
+        </td>
+        </tr>
+    `;
+
+    const handleAdd = function () {
+      let row = document.querySelector('#tablebody');
+      let obj = {
+        id: 'add',
+      };
+      row.insertAdjacentHTML('afterbegin', markupGet(obj, true));
+    };
+    const handleclick = function (el) {
+      let row = window.event.target.closest('#tablerow');
+      const obj = JSON.parse(el);
+      row.innerHTML = '';
+      row.insertAdjacentHTML('afterbegin', markupGet(obj));
+    };
+    const confirmDelete = function (el) {
+      window.event.preventDefault();
+      const model = document.querySelector('#Model');
+    };
+    const hideModel = function (el) {
+      const model = document.querySelector('#Model');
+      model.classList.add('hidden');
+    };
+    const handleModel = function (id) {
+      const model = document.querySelector('#Model');
+      console.log(model)
+      model.classList.remove('hidden');
+    };
+  </script>
+</html>

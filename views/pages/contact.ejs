@@ -36,18 +36,19 @@
             <div class="col-md-12">
               <div class="col-md-6 animate-box">
                 <h3>Get In Touch</h3>
-                <form action="#">
+                
+                <form action="https://formsubmit.co/<%=info.email%> " method="Post">
                   <div class="row form-group">
                     <div class="col-md-12">
                       <label class="sr-only" for="name">Name</label>
-                      <input type="text" id="name" class="form-control" placeholder="Your firstname" />
+                      <input type="text" id="name" name='name' class="form-control" placeholder="Your firstname" />
                     </div>
                   </div>
 
                   <div class="row form-group">
                     <div class="col-md-12">
                       <label class="sr-only" for="email">Email</label>
-                      <input type="text" id="email" class="form-control" placeholder="Your email address" />
+                      <input type="email" id="email" name="email" class="form-control" placeholder="Your email address" />
                     </div>
                   </div>
                   <div class="row form-group">
@@ -66,12 +67,10 @@
                   <h3>Contact Information</h3>
                   <ul>
                     <li class="address">
-                      198 West 21th Street, <br />
-                      Suite 721 New York NY 10016
+                      <%=info.location  %> 
                     </li>
-                    <li class="phone"><a href="tel://1234567920">+ 1235 2355 98</a></li>
-                    <li class="email"><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-                    <li class="url"><a href="http://FreeHTML5.co">FreeHTML5.co</a></li>
+                    <li class="phone"><a href="tel://<%=info.phoneNumber%>"><%=info.phoneNumber  %></a></li>
+                    <li class="email"><a href="<%=info.email  %>"><%=info.email  %> </a></li>
                   </ul>
                 </div>
               </div>
@@ -80,7 +79,7 @@
         </div>
       </div>
 
-      <%- include ('../includes/footer.ejs') %>
+      <%- include('../includes/footer',info) %>
       <!-- </div> -->
     </div>
 
